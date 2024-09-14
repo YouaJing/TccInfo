@@ -1,0 +1,12 @@
+name: '${name}'
+version: '${version}'
+main: '${main}'
+api-version: 1.13
+load: POSTWORLD
+authors: [ YouaJing ]
+folia-supported: true
+commands:
+  tccinfo:
+    description: 查你在tcc游玩信息
+    permission: tccinfo.use
+
