@@ -33,7 +33,7 @@ public class GetInfo {
         stats.put("bedcount", getBedCount(player));
         stats.put("deathcount", getDeathCount(player));
         stats.put("mobkills", getMobKills(player));
-        stats.put("dragonkill", getDragonKills(player));
+        stats.put("dragonkills", getDragonKills(player));
         stats.put("netheritecraft", getNetheriteCraft(player));
         return stats;
     }
