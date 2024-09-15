@@ -1,15 +1,10 @@
 package tcc.youajing.tccinfo;
-
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Statistic;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.OfflinePlayer;
 
-import java.util.UUID;
+import java.util.HashMap;
 
 public class InfoCommand implements CommandExecutor {
     private final TccInfo plugin;
@@ -26,22 +21,16 @@ public class InfoCommand implements CommandExecutor {
         }
 
         String subCommand = args[0].toLowerCase();
-
+        GetInfo getInfo = new GetInfo();
         switch (subCommand) {
             case "playtime":
                 if (args.length < 2) {
                     sender.sendMessage("用法: /tccinfo playtime <玩家ID>");
                     return true;
                 }
-                Player player = Bukkit.getPlayer(args[1]);
-                if (player == null) {
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-                    int playTime = offlinePlayer.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000;
-                    sender.sendMessage(String.valueOf(playTime));
-                }else {
-                    int playTime = player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000;
-                    sender.sendMessage(String.valueOf(playTime));
-                }
+                OfflinePlayer player = Bukkit.getOfflinePlayer(args[1]);
+                int playTime = getInfo.getPlayTime(player);
+                sender.sendMessage(String.valueOf(playTime));
                 return true;
 
             case "bedcount":
@@ -49,16 +38,67 @@ public class InfoCommand implements CommandExecutor {
                     sender.sendMessage("用法: /tccinfo bedcount <玩家ID>");
                     return true;
                 }
-                player = Bukkit.getPlayer(args[1]);
-                if (player == null) {
-                    OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(args[1]);
-                    int bedCount = offlinePlayer.getStatistic(Statistic.SLEEP_IN_BED);
-                    sender.sendMessage(String.valueOf(bedCount));
-                }else {
-                    int bedCount = player.getStatistic(Statistic.SLEEP_IN_BED);
-                    sender.sendMessage(String.valueOf(bedCount));
-                }
+                player = Bukkit.getOfflinePlayer(args[1]);
+                int bedCount = getInfo.getBedCount(player);
+                sender.sendMessage(String.valueOf(bedCount));
                 return true;
+
+            case "deathcount":
+                if (args.length < 2) {
+                    sender.sendMessage("用法: /tccinfo deathcount <玩家ID>");
+                    return true;
+                }
+                player = Bukkit.getOfflinePlayer(args[1]);
+                int deathCount = getInfo.getDeathCount(player);
+                sender.sendMessage(String.valueOf(deathCount));
+                return true;
+
+            case "mobkills":
+                if (args.length < 2) {
+                    sender.sendMessage("用法: /tccinfo mobkills <玩家ID>");
+                    return true;
+                }
+                player = Bukkit.getOfflinePlayer(args[1]);
+                int mobKills = getInfo.getMobKills(player);
+                sender.sendMessage(String.valueOf(mobKills));
+                return true;
+
+            case "dragonkills":
+                if (args.length < 2) {
+                    sender.sendMessage("用法: /tccinfo dragonkills <玩家ID>");
+                    return true;
+                }
+                player = Bukkit.getOfflinePlayer(args[1]);
+                int dragonKills = getInfo.getDragonKills(player);
+                sender.sendMessage(String.valueOf(dragonKills));
+                return true;
+
+            case "netheritecraft":
+                if (args.length < 2) {
+                    sender.sendMessage("用法: /tccinfo netheritecraft <玩家ID>");
+                    return true;
+                }
+                player = Bukkit.getOfflinePlayer(args[1]);
+                int netheriteCraft = getInfo.getNetheriteCraft(player);
+                sender.sendMessage(String.valueOf(netheriteCraft));
+                return true;
+
+            case "all":
+                if (args.length < 2) {
+                    sender.sendMessage("用法: /tccinfo all <玩家ID>");
+                    return true;
+                }
+                player = Bukkit.getOfflinePlayer(args[1]);
+                HashMap<String, Integer> allStats = getInfo.getAllStats(player);
+                StringBuilder json = new StringBuilder("{");
+                for (String key : allStats.keySet()) {
+                    json.append('"').append(key).append('"').append(":").append('"').append(allStats.get(key)).append('"').append(",");
+                }
+                json.deleteCharAt(json.length() - 1); // 删除最后一个逗号
+                json.append("}");
+                sender.sendMessage(json.toString());
+                return true;
+
 
             default:
                 sender.sendMessage("未知子命令，请使用 /tccinfo playtime 或 /tccinfo bedcount。");
