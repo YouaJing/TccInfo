@@ -59,8 +59,8 @@ public class InfoCommand implements CommandExecutor {
                     return true;
                 }
                 player = Bukkit.getOfflinePlayer(args[1]);
-                int mobKills = getInfo.getMobKills(player);
-                sender.sendMessage(String.valueOf(mobKills));
+                String mobKills = getInfo.getMobKills(player);
+                sender.sendMessage(mobKills);
                 return true;
 
             case "dragonkills":
@@ -89,7 +89,7 @@ public class InfoCommand implements CommandExecutor {
                     return true;
                 }
                 player = Bukkit.getOfflinePlayer(args[1]);
-                HashMap<String, Integer> allStats = getInfo.getAllStats(player);
+                HashMap<String, String> allStats = getInfo.getAllStats(player);
                 StringBuilder json = new StringBuilder("{");
                 for (String key : allStats.keySet()) {
                     json.append('"').append(key).append('"').append(":").append('"').append(allStats.get(key)).append('"').append(",");
@@ -101,7 +101,7 @@ public class InfoCommand implements CommandExecutor {
 
 
             default:
-                sender.sendMessage("未知子命令，请使用 /tccinfo playtime 或 /tccinfo bedcount。");
+                sender.sendMessage("未知子命令");
                 return true;
         }
     }

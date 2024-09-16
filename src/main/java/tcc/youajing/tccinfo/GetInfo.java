@@ -17,8 +17,15 @@ public class GetInfo {
     public int getDeathCount(OfflinePlayer player) {
         return player.getStatistic(Statistic.DEATHS);
     }
-    public int getMobKills(OfflinePlayer player) {
-        return player.getStatistic(Statistic.MOB_KILLS);
+    public String getMobKills(OfflinePlayer player) {
+        int mobKills = player.getStatistic(Statistic.MOB_KILLS);
+        if (mobKills < 10000) {
+            return String.valueOf(mobKills);
+        }else {
+            int w = mobKills / 10000;
+            int k = (mobKills % 10000) / 1000;
+            return w + (k > 0 ? "." + k : "") + "w";
+        }
     }
     public int getDragonKills(OfflinePlayer player) {
         return player.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDER_DRAGON);
@@ -27,14 +34,14 @@ public class GetInfo {
         return player.getStatistic(Statistic.CRAFT_ITEM, Material.NETHERITE_INGOT);
     }
 
-    public HashMap<String, Integer> getAllStats(OfflinePlayer player) {
-        HashMap<String, Integer> stats = new HashMap<>();
-        stats.put("playtime", getPlayTime(player));
-        stats.put("bedcount", getBedCount(player));
-        stats.put("deathcount", getDeathCount(player));
+    public HashMap<String, String> getAllStats(OfflinePlayer player) {
+        HashMap<String, String> stats = new HashMap<>();
+        stats.put("playtime", String.valueOf(getPlayTime(player)));
+        stats.put("bedcount", String.valueOf(getBedCount(player)));
+        stats.put("deathcount", String.valueOf(getDeathCount(player)));
         stats.put("mobkills", getMobKills(player));
-        stats.put("dragonkills", getDragonKills(player));
-        stats.put("netheritecraft", getNetheriteCraft(player));
+        stats.put("dragonkills", String.valueOf(getDragonKills(player)));
+        stats.put("netheritecraft", String.valueOf(getNetheriteCraft(player)));
         return stats;
     }
 }
