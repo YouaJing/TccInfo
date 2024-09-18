@@ -3,6 +3,7 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
@@ -81,6 +82,14 @@ public class InfoCommand implements CommandExecutor {
                 player = Bukkit.getOfflinePlayer(args[1]);
                 int netheriteCraft = getInfo.getNetheriteCraft(player);
                 sender.sendMessage(String.valueOf(netheriteCraft));
+                return true;
+
+            case "prefix":
+                if (args.length < 2) {
+                    sender.sendMessage("用法: /tccinfo prefix <玩家ID>");
+                    return true;
+                }
+                sender.sendMessage(GetInfo.getPrefixOffline(Bukkit.getOfflinePlayer(args[1])));
                 return true;
 
             case "all":

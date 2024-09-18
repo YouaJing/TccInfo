@@ -1,13 +1,17 @@
 package tcc.youajing.tccinfo;
 
+
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
 public class GetInfo {
+
     public int getPlayTime(OfflinePlayer player) {
         return player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000;
     }
@@ -33,7 +37,6 @@ public class GetInfo {
     public int getNetheriteCraft(OfflinePlayer player) {
         return player.getStatistic(Statistic.CRAFT_ITEM, Material.NETHERITE_INGOT);
     }
-
     public HashMap<String, String> getAllStats(OfflinePlayer player) {
         HashMap<String, String> stats = new HashMap<>();
         stats.put("playtime", String.valueOf(getPlayTime(player)));
@@ -44,4 +47,15 @@ public class GetInfo {
         stats.put("netheritecraft", String.valueOf(getNetheriteCraft(player)));
         return stats;
     }
+
+    //离线玩家
+    public static String getPrefixOffline(OfflinePlayer player) {
+        String prefix = PrefixManager.getPrefix(player.getName());
+        if (prefix != null) {
+            return prefix.replaceAll("<[^>]+>", "");
+        }else {
+            return "-";
+        }
+    }
+
 }
