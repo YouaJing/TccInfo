@@ -50,12 +50,7 @@ public class GetInfo {
 
     //离线玩家
     public static String getPrefixOffline(OfflinePlayer player) {
-        String prefix = PrefixManager.getPrefix(player.getName());
-        if (prefix != null) {
-            return prefix.replaceAll("<[^>]+>", "");
-        }else {
-            return "-";
-        }
+        return PrefixManager.getPrefix(player.getName());
     }
 
 }

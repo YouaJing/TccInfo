@@ -24,7 +24,7 @@ public class PrefixManager {
     }
 
     public static String getPrefix(String playerName) {
-        return config.getString(playerName + ".prefix", "-");
+        return config.getString(playerName + ".prefix", null);
     }
 }
 
