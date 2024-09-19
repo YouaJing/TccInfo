@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class GetInfo {
 
@@ -50,7 +51,9 @@ public class GetInfo {
 
     //离线玩家
     public static String getPrefixOffline(OfflinePlayer player) {
-        return PrefixManager.getPrefix(player.getName());
+        String prefix = PrefixManager.getPrefix(player.getName());
+//        return PrefixManager.getPrefix(player.getName());
+        return Objects.requireNonNullElse(prefix, "{\"color_code\":\"#FFFFFF,#FFFFFF\",\"text\":\"你还没有称号捏\"}");
     }
 
 }

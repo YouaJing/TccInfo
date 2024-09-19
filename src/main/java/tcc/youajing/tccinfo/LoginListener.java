@@ -47,9 +47,9 @@ public class LoginListener implements org.bukkit.event.Listener {
             colorCodes.append(colorMatcher.group());
         }
 
-        // 如果没有提取到颜色代码，默认设置为 #FFFFFF
+        // 如果没有提取到颜色代码，默认设置为 #FFFFFF,#FFFFFF
         if (colorCodes.length() == 0) {
-            colorCodes.append("#FFFFFF");
+            colorCodes.append("#FFFFFF,#FFFFFF");
         }
 
         // 正则表达式用于匹配并提取文本内容，忽略所有的HTML标签
@@ -70,7 +70,7 @@ public class LoginListener implements org.bukkit.event.Listener {
         }
 
         // 返回包含颜色代码和文本内容的JSON格式字符串
-        return String.format("{\"color_code\":\"%s\", \"text\":\"%s\"}", colorCodes, text);
+        return String.format("{\"color_code\":\"%s\",\"text\":\"%s\"}", colorCodes, text);
     }
 
 
