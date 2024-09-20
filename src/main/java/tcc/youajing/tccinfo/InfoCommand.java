@@ -3,7 +3,6 @@ import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
@@ -128,9 +127,6 @@ public class InfoCommand implements CommandExecutor {
                 // 发送构建好的JSON字符串作为消息给发送者
                 sender.sendMessage(json.toString());
                 return true;
-
-
-
 
             default:
                 sender.sendMessage("未知子命令");
