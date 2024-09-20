@@ -66,9 +66,9 @@ public class LoginListener implements org.bukkit.event.Listener {
             colorCodes.append(colorMatcher.group());
         }
 
-        // 如果没有提取到颜色代码，默认设置为 #000000,#000000
+        // 如果没有提取到颜色代码，默认设置为 #495057,#495057，淡黑色
         if (colorCodes.isEmpty()) {
-            colorCodes.append("#000000,#000000");
+            colorCodes.append("#495057,#495057");
         }
 
         // 正则表达式用于匹配并提取文本内容，忽略所有的HTML标签

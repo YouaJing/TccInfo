@@ -24,7 +24,7 @@ public class PrefixManager {
         // 初始化文件对象
         this.file = new File(dataFolder, "prefix.yml");
         // 加载Yaml配置
-        this.config = YamlConfiguration.loadConfiguration(file);
+        config = YamlConfiguration.loadConfiguration(file);
     }
 
     /**
@@ -52,6 +52,8 @@ public class PrefixManager {
      * @return 玩家的前缀，如果不存在则返回null
      */
     public static String getPrefix(String playerName) {
+        //自动重载
+        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
         // 从配置中获取玩家的前缀
         return config.getString(playerName + ".prefix", null);
     }

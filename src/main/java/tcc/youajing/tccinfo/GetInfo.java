@@ -108,7 +108,7 @@ public class GetInfo {
      */
     public static String getPrefixOffline(OfflinePlayer player) {
         String prefix = PrefixManager.getPrefix(player.getName());
-        return Objects.requireNonNullElse(prefix, "{\"color_code\":\"#000000,#000000\",\"text\":\"你还没有称号捏\"}");
+        return Objects.requireNonNullElse(prefix, "{\"color_code\":\"#495057,#495057\",\"text\":\"你还没有称号捏\"}");
     }
 
 }
