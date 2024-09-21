@@ -54,14 +54,15 @@ public class GetInfo {
      */
     public String getMobKills(OfflinePlayer player) {
         int mobKills = player.getStatistic(Statistic.MOB_KILLS);
+
         if (mobKills < 10000) {
             return String.valueOf(mobKills);
         } else {
-            int w = mobKills / 10000;
-            int k = (mobKills % 10000) / 1000;
-            return w + (k > 0 ? "." + k : "") + "w";
+            double killsInW = mobKills / 10000.0;
+            return String.format("%.1fw", killsInW);
         }
     }
+
 
     /**
      * 获取玩家击杀末影龙次数
@@ -89,6 +90,16 @@ public class GetInfo {
      * @param player 离线玩家对象
      * @return 包含玩家各种统计信息的键值对映射表
      */
+    public String getDistanceWalked(OfflinePlayer player) {
+        int distanceInMeters = player.getStatistic(Statistic.WALK_ONE_CM) / 100; // 转换为米
+
+        if (distanceInMeters >= 10000) {
+            double distanceInKm = distanceInMeters / 10000.0;
+            return String.format("%.1fw", distanceInKm);
+        } else {
+            return String.valueOf(distanceInMeters);
+        }
+    }
     public HashMap<String, String> getAllStats(OfflinePlayer player) {
         HashMap<String, String> stats = new HashMap<>();
         stats.put("playtime", String.valueOf(getPlayTime(player)));
@@ -96,6 +107,7 @@ public class GetInfo {
         stats.put("deathcount", String.valueOf(getDeathCount(player)));
         stats.put("mobkills", getMobKills(player));
         stats.put("dragonkills", String.valueOf(getDragonKills(player)));
+        stats.put("distancewalked", getDistanceWalked(player));
         stats.put("netheritecraft", String.valueOf(getNetheriteCraft(player)));
         return stats;
     }
