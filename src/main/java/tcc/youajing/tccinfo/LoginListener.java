@@ -51,46 +51,53 @@ public class LoginListener implements org.bukkit.event.Listener {
      * @param input 输入的字符串，可能包含十六进制颜色代码和HTML标签
      * @return 返回一个JSON格式的字符串，包含提取的颜色代码和文本内容
      */
-    public static String extractColors(String input) {
-        // 正则表达式用于匹配十六进制颜色代码
-        String colorRegex = "#[0-9A-Fa-f]{6}";
-        Pattern colorPattern = Pattern.compile(colorRegex);
-        Matcher colorMatcher = colorPattern.matcher(input);
+   public static String extractColors(String input) {
+    // 正则表达式用于匹配十六进制颜色代码
+    String colorRegex = "#[0-9A-Fa-f]{6}";
+    Pattern colorPattern = Pattern.compile(colorRegex);
+    Matcher colorMatcher = colorPattern.matcher(input);
 
-        StringBuilder colorCodes = new StringBuilder();
-        // 遍历输入字符串，查找并收集所有匹配的颜色代码
-        while (colorMatcher.find()) {
-            if (!colorCodes.isEmpty()) {
-                colorCodes.append(",");
-            }
-            colorCodes.append(colorMatcher.group());
+    StringBuilder colorCodes = new StringBuilder();
+    // 遍历输入字符串，查找并收集所有匹配的颜色代码
+    while (colorMatcher.find()) {
+        if (!colorCodes.isEmpty()) {
+            colorCodes.append(",");
         }
-
-        // 如果没有提取到颜色代码，默认设置为 #495057,#495057，淡黑色
-        if (colorCodes.isEmpty()) {
-            colorCodes.append("#495057,#495057");
-        }
-
-        // 正则表达式用于匹配并提取文本内容，忽略所有的HTML标签
-        String textRegex = "<[^>]+>|([^<>]+)";
-        Pattern textPattern = Pattern.compile(textRegex);
-        Matcher textMatcher = textPattern.matcher(input);
-        StringBuilder text = new StringBuilder();
-        // 遍历输入字符串，收集并拼接所有提取的文本内容
-        while (textMatcher.find()) {
-            if (textMatcher.group(1) != null) {
-                text.append(textMatcher.group(1));
-            }
-        }
-
-        // 如果没有提取到文本内容，默认设置为 "你还没有称号捏"
-        if (text.isEmpty()) {
-            text.append("你还没有称号捏");
-        }
-
-        // 返回包含颜色代码和文本内容的JSON格式字符串
-        return String.format("{\"color_code\":\"%s\",\"text\":\"%s\"}", colorCodes, text);
+        colorCodes.append(colorMatcher.group());
     }
+
+    // 检查是否有且只有一个颜色代码，如果是，则复制一个相同的颜色代码
+    String[] colors = colorCodes.toString().split(",");
+    if (colors.length == 1) {
+        colorCodes.append(",").append(colors[0]);
+    }
+
+    // 如果没有提取到颜色代码，默认设置为 #495057,#495057，淡黑色
+    if (colorCodes.isEmpty()) {
+        colorCodes.append("#495057,#495057");
+    }
+
+    // 正则表达式用于匹配并提取文本内容，忽略所有的HTML标签
+    String textRegex = "<[^>]+>|([^<>]+)";
+    Pattern textPattern = Pattern.compile(textRegex);
+    Matcher textMatcher = textPattern.matcher(input);
+    StringBuilder text = new StringBuilder();
+    // 遍历输入字符串，收集并拼接所有提取的文本内容
+    while (textMatcher.find()) {
+        if (textMatcher.group(1) != null) {
+            text.append(textMatcher.group(1));
+        }
+    }
+
+    // 如果没有提取到文本内容，默认设置为 "你还没有称号捏"
+    if (text.isEmpty()) {
+        text.append("你还没有称号捏");
+    }
+
+    // 返回包含颜色代码和文本内容的JSON格式字符串
+    return String.format("{\"color_code\":\"%s\",\"text\":\"%s\"}", colorCodes, text);
+}
+
 
 
 }
