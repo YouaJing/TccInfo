@@ -7,51 +7,26 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
-/**
- * 玩家信息获取类
- * 提供各种方法来获取玩家的游戏内统计信息
- */
+
 public class GetInfo {
 
-    /**
-     * 获取玩家的游戏时间（小时）
-     *
-     * @param player 离线玩家对象
-     * @return 玩家的游戏时间（小时）
-     */
     public int getPlayTime(OfflinePlayer player) {
         return player.getStatistic(Statistic.PLAY_ONE_MINUTE) / 72000;
     }
 
-    /**
-     * 获取玩家睡觉次数
-     *
-     * @param player 离线玩家对象
-     * @return 玩家睡觉次数
-     */
     public int getBedCount(OfflinePlayer player) {
         return player.getStatistic(Statistic.SLEEP_IN_BED);
     }
 
-    /**
-     * 获取玩家死亡次数
-     *
-     * @param player 离线玩家对象
-     * @return 玩家死亡次数
-     */
     public int getDeathCount(OfflinePlayer player) {
         return player.getStatistic(Statistic.DEATHS);
     }
 
-    /**
-     * 获取玩家击杀怪物数量
-     *
-     * @param player 离线玩家对象
-     * @return 玩家击杀怪物数量，当数量大于等于10000时，以“万”为单位显示
-     */
     public String getMobKills(OfflinePlayer player) {
         int mobKills = player.getStatistic(Statistic.MOB_KILLS);
 
@@ -62,34 +37,13 @@ public class GetInfo {
             return String.format("%.1fw", killsInW);
         }
     }
-
-
-    /**
-     * 获取玩家击杀末影龙次数
-     *
-     * @param player 离线玩家对象
-     * @return 玩家击杀末影龙次数
-     */
     public int getDragonKills(OfflinePlayer player) {
         return player.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDER_DRAGON);
     }
-
-    /**
-     * 获取玩家合成下界合金次数
-     *
-     * @param player 离线玩家对象
-     * @return 玩家合成下界合金次数
-     */
     public int getNetheriteCraft(OfflinePlayer player) {
         return player.getStatistic(Statistic.CRAFT_ITEM, Material.NETHERITE_INGOT);
     }
 
-    /**
-     * 获取玩家的所有统计信息
-     *
-     * @param player 离线玩家对象
-     * @return 包含玩家各种统计信息的键值对映射表
-     */
     public String getTotalDistance(OfflinePlayer player) {
         int totalDistanceInCm = player.getStatistic(Statistic.SWIM_ONE_CM)
                 + player.getStatistic(Statistic.SPRINT_ONE_CM)
@@ -109,6 +63,106 @@ public class GetInfo {
         }
     }
 
+    public String getJoinDate(OfflinePlayer player) {
+        String timestampStr = PlaceholderAPI.setPlaceholders((Player) player, "%player_first_join%");
+        long timestamp = Long.parseLong(timestampStr);
+
+        // 创建日期对象
+        Date date = new Date(timestamp);
+        // 设置日期格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM月dd日");
+        return sdf.format(date);
+    }
+
+    public String getMinedBlocks(OfflinePlayer player) {
+        int minedBlocks = player.getStatistic(Statistic.MINE_BLOCK);
+        if (minedBlocks < 10000) {
+            return String.valueOf(minedBlocks);
+        } else {
+            double MinedBlocksInW = minedBlocks / 10000.0;
+            return String.format("%.1fw", MinedBlocksInW);
+        }
+    }
+
+    public String getElytraDistance(OfflinePlayer player) {
+        int elytraDistance = player.getStatistic(Statistic.AVIATE_ONE_CM) / 100;
+        if (elytraDistance < 10000) {
+            return String.valueOf(elytraDistance);
+        } else {
+            double elytraDistanceInW = elytraDistance / 10000.0;
+            return String.format("%.1fw", elytraDistanceInW);
+        }
+    }
+
+    public String getVillagerTrades(OfflinePlayer player) {
+        int villagerTrades = player.getStatistic(Statistic.TRADED_WITH_VILLAGER);
+        if (villagerTrades < 10000) {
+            return String.valueOf(villagerTrades);
+        } else {
+            double vilagerTradesInW = villagerTrades / 10000.0;
+            return String.format("%.1fw", vilagerTradesInW);
+        }
+    }
+
+    public String getChestOpened(OfflinePlayer player) {
+        int chestOpened = player.getStatistic(Statistic.CHEST_OPENED);
+        if (chestOpened < 10000) {
+            return String.valueOf(chestOpened);
+        } else {
+            double chestOpenedInW = chestOpened / 10000.0;
+            return String.format("%.1fw", chestOpenedInW);
+        }
+    }
+
+    public String getEnderChestOpened(OfflinePlayer player) {
+        int enderChestOpened = player.getStatistic(Statistic.ENDERCHEST_OPENED);
+        if (enderChestOpened < 10000) {
+            return String.valueOf(enderChestOpened);
+        } else {
+            double enderChestOpenedInW = enderChestOpened / 10000.0;
+            return String.format("%.1fw", enderChestOpenedInW);
+        }
+    }
+
+    public String getDamageTaken(OfflinePlayer player) {
+        int damageTaken = player.getStatistic(Statistic.DAMAGE_TAKEN);
+        if (damageTaken < 10000) {
+            return String.valueOf(damageTaken);
+        } else {
+            double damageTakenInW = damageTaken / 10000.0;
+            return String.format("%.1fw", damageTakenInW);
+        }
+    }
+    public String getFishingCaught(OfflinePlayer player) {
+        int fishingCaught = player.getStatistic(Statistic.FISH_CAUGHT);
+        if (fishingCaught < 10000) {
+            return String.valueOf(fishingCaught);
+        } else {
+            double fishingCaughtInW = fishingCaught / 10000.0;
+            return String.format("%.1fw", fishingCaughtInW);
+        }
+    }
+
+    public String getRaidTriggered(OfflinePlayer player) {
+        int raidTriggered = player.getStatistic(Statistic.RAID_TRIGGER);
+        if (raidTriggered < 10000) {
+            return String.valueOf(raidTriggered);
+        } else {
+            double raidTriggeredInW = raidTriggered / 10000.0;
+            return String.format("%.1fw", raidTriggeredInW);
+        }
+    }
+
+    public String getFlowerPotted(OfflinePlayer player) {
+        int flowerPotted = player.getStatistic(Statistic.FLOWER_POTTED);
+        if (flowerPotted < 10000) {
+            return String.valueOf(flowerPotted);
+        } else {
+            double flowerPottedInW = flowerPotted / 10000.0;
+            return String.format("%.1fw", flowerPottedInW);
+        }
+    }
+
     public HashMap<String, String> getAllStats(OfflinePlayer player) {
         HashMap<String, String> stats = new HashMap<>();
         stats.put("playtime", String.valueOf(getPlayTime(player)));
@@ -118,15 +172,20 @@ public class GetInfo {
         stats.put("dragonkills", String.valueOf(getDragonKills(player)));
         stats.put("netheritecraft", String.valueOf(getNetheriteCraft(player)));
         stats.put("distancewalked", getTotalDistance(player));
+        stats.put("joinDate", getJoinDate(player));
+        stats.put("minedblocks", getMinedBlocks(player));
+        stats.put("elytradistance", getElytraDistance(player));
+        stats.put("villagertrades", getVillagerTrades(player));
+        stats.put("chestopened", getChestOpened(player));
+        stats.put("enderchestopened", getEnderChestOpened(player));
+        stats.put("damagetaken", getDamageTaken(player));
+        stats.put("fishingcaught", getFishingCaught(player));
+        stats.put("raidtriggered", getRaidTriggered(player));
+        stats.put("flowerpotted", getFlowerPotted(player));
         return stats;
     }
 
-    /**
-     * 获取离线玩家的前缀
-     *
-     * @param player 离线玩家对象
-     * @return 玩家的前缀，如果不存在则返回默认提示信息
-     */
+
     public static String getPrefixOffline(OfflinePlayer player) {
         String prefix = PrefixManager.getPrefix(player.getName());
         return Objects.requireNonNullElse(prefix, "{\"color_code\":\"#495057,#495057\",\"text\":\"你还没有称号捏\"}");
