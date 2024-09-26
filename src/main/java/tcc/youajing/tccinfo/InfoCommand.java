@@ -105,14 +105,14 @@ public class InfoCommand implements CommandExecutor {
                 HashMap<String, String> allStats = getInfo.getAllStats(player);
 
                 // 定义前缀信息
-                String prefix = GetInfo.getPrefixOffline(Bukkit.getOfflinePlayer(args[1]));
-
+                String prefix = GetInfo.getPrefixOffline(player);
+                String firstJoinDate = GetInfo.getFirstJoinDateOffline(player);
                 // 创建一个StringBuilder来构建JSON格式的字符串
                 StringBuilder json = new StringBuilder("{");
 
                 // 将前缀信息追加到JSON字符串中
                 json.append(prefix, 1, prefix.length() - 1).append(",");
-
+                json.append(firstJoinDate, 1, firstJoinDate.length() - 1).append(",");
                 // 遍历所有统计信息，将其添加到JSON字符串中
                 for (String key : allStats.keySet()) {
                     json.append('"').append(key).append('"').append(":").append('"').append(allStats.get(key)).append('"').append(",");

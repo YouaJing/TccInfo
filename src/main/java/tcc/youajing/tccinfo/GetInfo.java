@@ -7,10 +7,17 @@ import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
+
+import static org.bukkit.Bukkit.getServer;
 
 
 public class GetInfo {
@@ -63,26 +70,18 @@ public class GetInfo {
         }
     }
 
-    public String getJoinDate(OfflinePlayer player) {
-        String timestampStr = PlaceholderAPI.setPlaceholders((Player) player, "%player_first_join%");
-        long timestamp = Long.parseLong(timestampStr);
 
-        // 创建日期对象
-        Date date = new Date(timestamp);
-        // 设置日期格式
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM月dd日");
-        return sdf.format(date);
-    }
+//    public String getMinedBlocks(OfflinePlayer player) {
+//        int minedBlocks = player.getStatistic(Statistic.MINE_BLOCK);
+//        if (minedBlocks < 10000) {
+//            return String.valueOf(minedBlocks);
+//        } else {
+//            double MinedBlocksInW = minedBlocks / 10000.0;
+//            return String.format("%.1fw", MinedBlocksInW);
+//        }
+////        return String.valueOf(player.getStatistic(Statistic.MINE_BLOCK));
+//    }
 
-    public String getMinedBlocks(OfflinePlayer player) {
-        int minedBlocks = player.getStatistic(Statistic.MINE_BLOCK);
-        if (minedBlocks < 10000) {
-            return String.valueOf(minedBlocks);
-        } else {
-            double MinedBlocksInW = minedBlocks / 10000.0;
-            return String.format("%.1fw", MinedBlocksInW);
-        }
-    }
 
     public String getElytraDistance(OfflinePlayer player) {
         int elytraDistance = player.getStatistic(Statistic.AVIATE_ONE_CM) / 100;
@@ -172,8 +171,7 @@ public class GetInfo {
         stats.put("dragonkills", String.valueOf(getDragonKills(player)));
         stats.put("netheritecraft", String.valueOf(getNetheriteCraft(player)));
         stats.put("distancewalked", getTotalDistance(player));
-        stats.put("joinDate", getJoinDate(player));
-        stats.put("minedblocks", getMinedBlocks(player));
+//        stats.put("minedblocks", getMinedBlocks(player));
         stats.put("elytradistance", getElytraDistance(player));
         stats.put("villagertrades", getVillagerTrades(player));
         stats.put("chestopened", getChestOpened(player));
@@ -188,7 +186,11 @@ public class GetInfo {
 
     public static String getPrefixOffline(OfflinePlayer player) {
         String prefix = PrefixManager.getPrefix(player.getName());
-        return Objects.requireNonNullElse(prefix, "{\"color_code\":\"#495057,#495057\",\"text\":\"你还没有称号捏\"}");
+        return Objects.requireNonNullElse(prefix, "{\"color_code\":\"#495057,#495057\",\"text\":\"连接服务器刷新数据\"}");
     }
 
+    public static String getFirstJoinDateOffline(OfflinePlayer player) {
+        String firstJoinDate = PrefixManager.getFirstJoinDate(player.getName());
+        return Objects.requireNonNullElse(firstJoinDate, "{\"joindate\":\"连接服务器刷新数据\"}");
+    }
 }

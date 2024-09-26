@@ -45,6 +45,15 @@ public class PrefixManager {
         }
     }
 
+    public void updateFirstJoinDate(String playerName, String time) {
+        config.set(playerName + ".firstJoinDate", time);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 获取玩家的前缀
      *
@@ -56,5 +65,9 @@ public class PrefixManager {
         config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
         // 从配置中获取玩家的前缀
         return config.getString(playerName + ".prefix", null);
+    }
+    public static String getFirstJoinDate(String playerName) {
+        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
+        return config.getString(playerName + ".firstJoinDate", null);
     }
 }

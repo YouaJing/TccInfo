@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,10 +40,17 @@ public class LoginListener implements org.bukkit.event.Listener {
         Player player = event.getPlayer();
         // 使用PlaceholderAPI设置玩家前缀，替代前缀中的占位符
         String prefix = PlaceholderAPI.setPlaceholders(player, "%vault_prefix%");
+        String timestampStr = PlaceholderAPI.setPlaceholders((Player) player, "%player_first_join%");
+        long timestamp = Long.parseLong(timestampStr);
+        Date date = new Date(timestamp);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String formattedDate = dateFormat.format(date);
+        String sss = String.format("{\"joindate\":\"%s\"}", formattedDate);
         // 提取并保留前缀中的颜色代码
         prefix = extractColors(prefix);
         // 更新并存储玩家的前缀
         prefixManager.updatePrefix(player.getName(), prefix);
+        prefixManager.updateFirstJoinDate(player.getName(), sss);
     }
 
 
