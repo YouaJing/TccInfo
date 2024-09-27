@@ -63,24 +63,26 @@ public class GetInfo {
         int totalDistanceInBlocks = totalDistanceInCm / 100; // 转换为方块
 
         if (totalDistanceInBlocks >= 10000) {
-            double distanceInKm = totalDistanceInBlocks / 10000.0;
-            return String.format("%.1fw", distanceInKm);
+            double distanceInw = totalDistanceInBlocks / 10000.0;
+            return String.format("%.1fw", distanceInw);
         } else {
             return String.valueOf(totalDistanceInBlocks);
         }
     }
 
 
-//    public String getMinedBlocks(OfflinePlayer player) {
-//        int minedBlocks = player.getStatistic(Statistic.MINE_BLOCK);
-//        if (minedBlocks < 10000) {
-//            return String.valueOf(minedBlocks);
-//        } else {
-//            double MinedBlocksInW = minedBlocks / 10000.0;
-//            return String.format("%.1fw", MinedBlocksInW);
-//        }
-////        return String.valueOf(player.getStatistic(Statistic.MINE_BLOCK));
-//    }
+    public static String getMinedDebris(OfflinePlayer player) {
+        int minedDebris = player.getStatistic(Statistic.MINE_BLOCK, Material.ANCIENT_DEBRIS);
+        int placeDebris = player.getStatistic(Statistic.USE_ITEM, Material.ANCIENT_DEBRIS);
+        int totalDebris = minedDebris - placeDebris;
+        if (totalDebris >= 10000) {
+            double totalDebrisInw = totalDebris / 10000.0;
+            return String.format("%.1fw", totalDebrisInw);
+        } else {
+            return String.valueOf(totalDebris);
+        }
+    }
+
 
 
     public String getElytraDistance(OfflinePlayer player) {
@@ -132,6 +134,16 @@ public class GetInfo {
             return String.format("%.1fw", damageTakenInW);
         }
     }
+
+    public String getDamageDealt(OfflinePlayer player) {
+        int damageDealt = player.getStatistic(Statistic.DAMAGE_DEALT);
+        if (damageDealt < 10000) {
+            return String.valueOf(damageDealt);
+        } else {
+            double damageDealtInW = damageDealt / 10000.0;
+            return String.format("%.1fw", damageDealtInW);
+        }
+    }
     public String getFishingCaught(OfflinePlayer player) {
         int fishingCaught = player.getStatistic(Statistic.FISH_CAUGHT);
         if (fishingCaught < 10000) {
@@ -139,6 +151,16 @@ public class GetInfo {
         } else {
             double fishingCaughtInW = fishingCaught / 10000.0;
             return String.format("%.1fw", fishingCaughtInW);
+        }
+    }
+
+    public String getAnimalsBred(OfflinePlayer player){
+        int animalsBred = player.getStatistic(Statistic.ANIMALS_BRED);
+        if (animalsBred < 10000) {
+            return String.valueOf(animalsBred);
+        } else {
+            double animalsBredInW = animalsBred / 10000.0;
+            return String.format("%.1fw", animalsBredInW);
         }
     }
 
@@ -164,22 +186,23 @@ public class GetInfo {
 
     public HashMap<String, String> getAllStats(OfflinePlayer player) {
         HashMap<String, String> stats = new HashMap<>();
-        stats.put("playtime", String.valueOf(getPlayTime(player)));
-        stats.put("bedcount", String.valueOf(getBedCount(player)));
-        stats.put("deathcount", String.valueOf(getDeathCount(player)));
-        stats.put("mobkills", getMobKills(player));
-        stats.put("dragonkills", String.valueOf(getDragonKills(player)));
-        stats.put("netheritecraft", String.valueOf(getNetheriteCraft(player)));
-        stats.put("distancewalked", getTotalDistance(player));
-//        stats.put("minedblocks", getMinedBlocks(player));
-        stats.put("elytradistance", getElytraDistance(player));
-        stats.put("villagertrades", getVillagerTrades(player));
-        stats.put("chestopened", getChestOpened(player));
-        stats.put("enderchestopened", getEnderChestOpened(player));
-        stats.put("damagetaken", getDamageTaken(player));
-        stats.put("fishingcaught", getFishingCaught(player));
-        stats.put("raidtriggered", getRaidTriggered(player));
-        stats.put("flowerpotted", getFlowerPotted(player));
+        stats.put("playTime", String.valueOf(getPlayTime(player)));
+        stats.put("bedCount", String.valueOf(getBedCount(player)));
+        stats.put("deathCount", String.valueOf(getDeathCount(player)));
+        stats.put("mobKills", getMobKills(player));
+        stats.put("dragonKills", String.valueOf(getDragonKills(player)));
+        stats.put("minedDebris", getMinedDebris(player));
+        stats.put("distanceWalked", getTotalDistance(player));
+        stats.put("elytraDistance", getElytraDistance(player));
+        stats.put("villagerTrades", getVillagerTrades(player));
+        stats.put("chestOpened", getChestOpened(player));
+        stats.put("enderChestOpened", getEnderChestOpened(player));
+        stats.put("damageTaken", getDamageTaken(player));
+        stats.put("damageDealt", getDamageDealt(player));
+        stats.put("fishingCaught", getFishingCaught(player));
+        stats.put("animalsBred", getAnimalsBred(player));
+        stats.put("raidTriggered", getRaidTriggered(player));
+        stats.put("flowerPotted", getFlowerPotted(player));
         return stats;
     }
 
