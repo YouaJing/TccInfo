@@ -1,14 +1,17 @@
 package tcc.youajing.tccinfo;
 
 import org.bukkit.configuration.file.YamlConfiguration;
+
 import java.io.File;
 import java.io.IOException;
+import static tcc.youajing.tccinfo.ObjectPool.plugin;
 
 /**
  * 管理玩家前缀的类
  * 负责更新和获取玩家的前缀信息，使用YAML文件进行存储
  */
 public class PrefixManager {
+
 
     // 存储前缀信息的文件
     private  final File file;
@@ -54,6 +57,15 @@ public class PrefixManager {
         }
     }
 
+    public void updateMineBlocks(String playerName, String mineBlocks) {
+        config.set(playerName + ".mineBlocks", mineBlocks);
+        try {
+            config.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 获取玩家的前缀
      *
@@ -62,7 +74,7 @@ public class PrefixManager {
      */
     public static String getPrefix(String playerName) {
         //自动重载
-        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
+//        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
         // 从配置中获取玩家的前缀
         return config.getString(playerName + ".prefix", null);
     }
@@ -70,4 +82,15 @@ public class PrefixManager {
         config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
         return config.getString(playerName + ".firstJoinDate", null);
     }
+    public static String getMineBlocks(String playerName) {
+        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
+        return config.getString(playerName + ".mineBlocks", null);
+    }
+
+    public static void reload() {
+        plugin.reloadConfig();
+        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
+    }
+
+
 }

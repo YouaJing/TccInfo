@@ -22,6 +22,7 @@ public class TccInfo extends BukkitPlugin {
         Listener loginListener = new LoginListener(this, prefixManager);
         // 将监听器注册到服务器的插件管理系统
         getServer().getPluginManager().registerEvents(loginListener, this);
+        ObjectPool.plugin = this;
     }
 
     /**

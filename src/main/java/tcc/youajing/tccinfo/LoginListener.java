@@ -3,6 +3,7 @@ package tcc.youajing.tccinfo;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
  * 监听玩家登录事件的类
  * 当玩家加入服务器时，该监听器会获取玩家的前缀并进行相应处理
  */
-public class LoginListener implements org.bukkit.event.Listener {
+public class LoginListener implements Listener {
     // 前缀管理器的实例，用于更新玩家的前缀
     private final PrefixManager prefixManager;
 
@@ -38,20 +39,37 @@ public class LoginListener implements org.bukkit.event.Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         // 获取加入事件的玩家实例
         Player player = event.getPlayer();
+
         // 使用PlaceholderAPI设置玩家前缀，替代前缀中的占位符
         String prefix = PlaceholderAPI.setPlaceholders(player, "%vault_prefix%");
-        String timestampStr = PlaceholderAPI.setPlaceholders((Player) player, "%player_first_join%");
-        long timestamp = Long.parseLong(timestampStr);
-        Date date = new Date(timestamp);
+
+        // 获取玩家首次加入时间戳并转换为日期格式
+        String firstJoinTimestampStr = PlaceholderAPI.setPlaceholders(player, "%player_first_join%");
+//        int mineBlocks = Integer.parseInt(PlaceholderAPI.setPlaceholders(player, "%statistic_mine_block%"));
+//        String mineBlocksString;
+//        if (mineBlocks >= 10000) {
+//            double mineBlocksInW = mineBlocks / 10000.0;
+//            mineBlocksString = String.format("%.1fw", mineBlocksInW);
+//        }else {
+//            mineBlocksString = String.valueOf(mineBlocks);
+//        }
+//        mineBlocksString = String.format("{\"mineBlocks\":\"%s\"}", mineBlocksString);
+
+        long firstJoinTimestamp = Long.parseLong(firstJoinTimestampStr);
+        Date firstJoinDate = new Date(firstJoinTimestamp);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDate = dateFormat.format(date);
-        String sss = String.format("{\"joindate\":\"%s\"}", formattedDate);
+        String formattedFirstJoinDate = dateFormat.format(firstJoinDate);
+        String firstJoinDateJson = String.format("{\"firstJoinDate\":\"%s\"}", formattedFirstJoinDate);
+
         // 提取并保留前缀中的颜色代码
         prefix = extractColors(prefix);
-        // 更新并存储玩家的前缀
+
+        // 更新并存储玩家的前缀和首次加入日期
         prefixManager.updatePrefix(player.getName(), prefix);
-        prefixManager.updateFirstJoinDate(player.getName(), sss);
+        prefixManager.updateFirstJoinDate(player.getName(), firstJoinDateJson);
+//        prefixManager.updateMineBlocks(player.getName(), mineBlocksString);
     }
+
 
 
     /**
