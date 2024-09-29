@@ -45,19 +45,9 @@ public class LoginListener implements Listener {
 
         // 获取玩家首次加入时间戳并转换为日期格式
         String firstJoinTimestampStr = PlaceholderAPI.setPlaceholders(player, "%player_first_join%");
-//        int mineBlocks = Integer.parseInt(PlaceholderAPI.setPlaceholders(player, "%statistic_mine_block%"));
-//        String mineBlocksString;
-//        if (mineBlocks >= 10000) {
-//            double mineBlocksInW = mineBlocks / 10000.0;
-//            mineBlocksString = String.format("%.1fw", mineBlocksInW);
-//        }else {
-//            mineBlocksString = String.valueOf(mineBlocks);
-//        }
-//        mineBlocksString = String.format("{\"mineBlocks\":\"%s\"}", mineBlocksString);
-
         long firstJoinTimestamp = Long.parseLong(firstJoinTimestampStr);
         Date firstJoinDate = new Date(firstJoinTimestamp);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy年MM月dd日-HH:mm");
         String formattedFirstJoinDate = dateFormat.format(firstJoinDate);
         String firstJoinDateJson = String.format("{\"firstJoinDate\":\"%s\"}", formattedFirstJoinDate);
 
@@ -67,7 +57,6 @@ public class LoginListener implements Listener {
         // 更新并存储玩家的前缀和首次加入日期
         prefixManager.updatePrefix(player.getName(), prefix);
         prefixManager.updateFirstJoinDate(player.getName(), firstJoinDateJson);
-//        prefixManager.updateMineBlocks(player.getName(), mineBlocksString);
     }
 
 
