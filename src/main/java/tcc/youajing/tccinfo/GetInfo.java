@@ -6,7 +6,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.EntityType;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -25,6 +24,11 @@ public class GetInfo {
         return player.getStatistic(Statistic.DEATHS);
     }
 
+    public String getOnlineStatus(OfflinePlayer player) {
+        if (player.isOnline()) {
+            return "在线";
+        }else return "离线";
+    }
     public String getMobKills(OfflinePlayer player) {
         int mobKills = player.getStatistic(Statistic.MOB_KILLS);
 
@@ -224,6 +228,7 @@ public class GetInfo {
 
     public HashMap<String, String> getAllStats(OfflinePlayer player) {
         HashMap<String, String> stats = new HashMap<>();
+        stats.put("OnlineStatus", getOnlineStatus(player));
         stats.put("playTime", String.valueOf(getPlayTime(player)));
         stats.put("bedCount", String.valueOf(getBedCount(player)));
         stats.put("deathCount", String.valueOf(getDeathCount(player)));

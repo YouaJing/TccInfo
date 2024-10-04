@@ -29,7 +29,7 @@ dependencies {
 }
 
 group = "tcc.youajing"
-version = "1.5"
+version = "1.6"
 var mainClass = "${rootProject.group}.${rootProject.name.lowercase()}.TccInfo"
 var pluginVersion: String = version.toString() + "-" + SimpleDateFormat("yyyyMMdd").format(System.currentTimeMillis())
 java.sourceCompatibility = JavaVersion.VERSION_21
