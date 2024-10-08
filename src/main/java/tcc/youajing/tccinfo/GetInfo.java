@@ -1,6 +1,8 @@
 package tcc.youajing.tccinfo;
 
 
+import com.earth2me.essentials.Essentials;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
@@ -26,7 +28,12 @@ public class GetInfo {
 
     public String getOnlineStatus(OfflinePlayer player) {
         if (player.isOnline()) {
-            return "在线";
+            Essentials essentials = (Essentials) Bukkit.getServer().getPluginManager().getPlugin("Essentials");
+            if (essentials != null && essentials.getUser(player.getName()) != null && essentials.getUser(player.getName()).isAfk()) {
+                return "挂机";
+            }else {
+                return "在线";
+            }
         }else return "离线";
     }
     public String getMobKills(OfflinePlayer player) {
@@ -42,9 +49,7 @@ public class GetInfo {
     public int getDragonKills(OfflinePlayer player) {
         return player.getStatistic(Statistic.KILL_ENTITY, EntityType.ENDER_DRAGON);
     }
-//    public int getNetheriteCraft(OfflinePlayer player) {
-//        return player.getStatistic(Statistic.CRAFT_ITEM, Material.NETHERITE_INGOT);
-//    }
+
 
     public String getTotalDistance(OfflinePlayer player) {
         int totalDistanceInCm = player.getStatistic(Statistic.SWIM_ONE_CM)
@@ -130,51 +135,6 @@ public class GetInfo {
         }
     }
 
-//    public static String getMineBlocks(OfflinePlayer player) {
-//        // 初始化一个Map来缓存Material和对应的挖掘数量
-//        Map<Material, Integer> mineCounts = new HashMap<>();
-//
-//        // 使用Material.values()一次获取所有可能的材料并计算总挖掘数
-//        for(Material material : Material.values()) {
-//            if (material.isBlock()) {
-//                mineCounts.put(material, player.getStatistic(Statistic.MINE_BLOCK, material));
-//            }
-//        }
-//
-//        // 计算总挖掘数
-//        int totalMineBlocks = mineCounts.values().stream().mapToInt(Integer::intValue).sum();
-//
-//        // 根据总挖掘数返回不同的格式化字符串
-//        if (totalMineBlocks < 10000) {
-//            return String.valueOf(totalMineBlocks);
-//        } else {
-//            double mineBlocksInW = totalMineBlocks / 10000.0;
-//            return String.format("%.1fw", mineBlocksInW);
-//        }
-//    }
-//
-//    public static String getPlaceBlocks(OfflinePlayer player) {
-//        // 初始化一个Map来缓存Material和对应的挖掘数量
-//        Map<Material, Integer> placeCounts = new HashMap<>();
-//
-//        // 使用Material.values()一次获取所有可能的材料并计算总挖掘数
-//        for(Material material : Material.values()) {
-//            if (material.isBlock()) {
-//                placeCounts.put(material, player.getStatistic(Statistic.USE_ITEM, material));
-//            }
-//        }
-//
-//        // 计算总挖掘数
-//        int totalPlaceBlocks = placeCounts.values().stream().mapToInt(Integer::intValue).sum();
-//
-//        // 根据总挖掘数返回不同的格式化字符串
-//        if (totalPlaceBlocks < 10000) {
-//            return String.valueOf(totalPlaceBlocks);
-//        } else {
-//            double placeBlocksInW = totalPlaceBlocks / 10000.0;
-//            return String.format("%.1fw", placeBlocksInW);
-//        }
-//    }
 
 
     public String getDamageDealt(OfflinePlayer player) {
@@ -228,14 +188,12 @@ public class GetInfo {
 
     public HashMap<String, String> getAllStats(OfflinePlayer player) {
         HashMap<String, String> stats = new HashMap<>();
-        stats.put("OnlineStatus", getOnlineStatus(player));
+        stats.put("onlineStatus", getOnlineStatus(player));
         stats.put("playTime", String.valueOf(getPlayTime(player)));
         stats.put("bedCount", String.valueOf(getBedCount(player)));
         stats.put("deathCount", String.valueOf(getDeathCount(player)));
         stats.put("mobKills", getMobKills(player));
         stats.put("dragonKills", String.valueOf(getDragonKills(player)));
-//        stats.put("mineBlocks", getMineBlocks(player));
-//        stats.put("placeBlocks", getPlaceBlocks(player));
         stats.put("minedDebris", getMinedDebris(player));
         stats.put("distanceWalked", getTotalDistance(player));
         stats.put("elytraDistance", getElytraDistance(player));
@@ -260,9 +218,5 @@ public class GetInfo {
     public static String getFirstJoinDateOffline(OfflinePlayer player) {
         String firstJoinDate = PrefixManager.getFirstJoinDate(player.getName());
         return Objects.requireNonNullElse(firstJoinDate, "{\"firstJoinDate\":\"连接服务器刷新数据\"}");
-    }
-    public static String getMineBlocksOffline(OfflinePlayer player) {
-        String mineBlocks = PrefixManager.getMineBlocks(player.getName());
-        return Objects.requireNonNullElse(mineBlocks, "{\"mineBlocks\":\"连接服务器刷新数据\"}");
     }
 }

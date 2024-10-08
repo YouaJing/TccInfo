@@ -15,6 +15,7 @@ repositories {
     mavenCentral()
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://repo.essentialsx.net/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 
 }
@@ -25,11 +26,12 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT")
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("net.essentialsx:EssentialsX:2.19.0")
     implementation("com.github.YufiriaMazenta:CrypticLib:1.0.5")
 }
 
 group = "tcc.youajing"
-version = "1.6"
+version = "2.1"
 var mainClass = "${rootProject.group}.${rootProject.name.lowercase()}.TccInfo"
 var pluginVersion: String = version.toString() + "-" + SimpleDateFormat("yyyyMMdd").format(System.currentTimeMillis())
 java.sourceCompatibility = JavaVersion.VERSION_21

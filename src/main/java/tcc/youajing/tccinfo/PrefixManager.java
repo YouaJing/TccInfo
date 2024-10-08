@@ -57,14 +57,7 @@ public class PrefixManager {
         }
     }
 
-    public void updateMineBlocks(String playerName, String mineBlocks) {
-        config.set(playerName + ".mineBlocks", mineBlocks);
-        try {
-            config.save(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     /**
      * 获取玩家的前缀
@@ -81,10 +74,6 @@ public class PrefixManager {
     public static String getFirstJoinDate(String playerName) {
         config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
         return config.getString(playerName + ".firstJoinDate", null);
-    }
-    public static String getMineBlocks(String playerName) {
-        config = YamlConfiguration.loadConfiguration(new File("plugins/TccInfo/prefix.yml"));
-        return config.getString(playerName + ".mineBlocks", null);
     }
 
     public static void reload() {

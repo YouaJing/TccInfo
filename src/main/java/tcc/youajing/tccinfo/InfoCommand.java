@@ -42,15 +42,7 @@ public class InfoCommand implements CommandExecutor {
                 sender.sendMessage(GetInfo.getPrefixOffline(Bukkit.getOfflinePlayer(args[1])));
                 return true;
 
-//            case "mineblocks":
-//                if (args.length < 2) {
-//                    sender.sendMessage("用法: /tccinfo prefix <玩家ID>");
-//                    return true;
-//                }
-//                sender.sendMessage(GetInfo.getMineBlocks(Bukkit.getOfflinePlayer(args[1])));
-//                sender.sendMessage(GetInfo.getPlaceBlocks(Bukkit.getOfflinePlayer(args[1])));
-//
-//                return true;
+
 
             // 当命令参数为"all"时，提供一个玩家的所有信息
             case "all":
